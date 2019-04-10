@@ -1,0 +1,33 @@
+fisherPath="/home2/magics/corpora/fisher-english";
+cd ${fisherPath};
+pwd;
+ls;
+fileList="fisher_eng_tr_sp_d1";
+
+for f in $fileList;
+do
+	mkdir "${f}_wavs"
+	cd $f
+	
+	cd audio
+	sphFiles="000";
+	for d in $sphFiles;do
+		pt="${fisherPath}/${f}_wavs/audio";
+		mkdir ${pt}
+		mkdir ${pt}/${d}
+		cd ${d}
+		allSPHS="*"
+		for q in $allSPHS;do
+			echo ${q}
+		      	echo $(basename ${q} .sph) 
+		       #  mkdir "${pt}/${d}/$(basename ${q} .sph)_wavs"
+		      	/home4/xcheng14/who_are_you/sph2pipe/sph2pipe -p -f wav ${q} "${pt}/${d}/$(basename ${q} .sph).wav";
+			mkdir "${pt}/${d}/$(basename ${q} .sph)_slices"
+			done;
+                cd ..
+		done
+	cd ..
+	cd ..
+done;
+echo $fileList
+# do ../sph2pipe -p -f  wav "${f%.*}.sph" "${f%.*}.wav"; done
