@@ -23,19 +23,30 @@ corpus = "fisher"
 #1)Put all filetable2.txt files from all the folders into just one folder.
 #2)Filetable files should be the only things in the folder.
 #3)You can rename them as long as only filetable2.txt files are contained in folder
-def read_filetable_files(file_table_dir):   #Call 1
-    line_parts = []
-    for filename in os.listdir(file_table_dir):
-        full_path = file_table_dir + '/' + filename
-        file = open(full_path, "r") 
-        for line in file:
-            line_parts = line.split()
-            #print("line parts 1: ", line_parts[1])
-            fname = line_parts[1].split('.')[0].strip() #take filename element and remove .sph from it
-            gender = line_parts[2].strip()
-            print ("fname: ", fname, " gender: ", gender)
-            filename_gender_map[fname] = gender
-        file.close()
+# def read_filetable_files(file_table_dir):   #Call 1
+#     line_parts = []
+#     for filename in os.listdir(file_table_dir):
+#         full_path = file_table_dir + '/' + filename
+#         file = open(full_path, "r") 
+#         for line in file:
+#             line_parts = line.split()
+#             #print("line parts 1: ", line_parts[1])
+#             fname = line_parts[1].split('.')[0].strip() #take filename element and remove .sph from it
+#             gender = line_parts[2].strip()
+#             print ("fname: ", fname, " gender: ", gender)
+#             filename_gender_map[fname] = gender
+#         file.close()
+
+def read_filetable_files(file_table_path):
+    file = open(file_table_path)
+    for line in file:
+        line_parts = line.split()
+        #print("line parts 1: ", line_parts[1])
+        fname = line_parts[1].split('.')[0].strip() #take filename element and remove .sph from it
+        gender = line_parts[2].strip()
+        print ("fname: ", fname, " gender: ", gender)
+        filename_gender_map[fname] = gender
+    file.close()    
 
 
 def create_wav_list (wav_file_dir):     
