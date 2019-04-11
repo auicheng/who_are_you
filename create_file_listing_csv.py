@@ -93,7 +93,7 @@ def get_material():
         return 'train'
     elif seed <= 85:
         return 'dev'
-    else 
+    else: 
         return 'test'
 
 
