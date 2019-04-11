@@ -1,6 +1,7 @@
 import sys
 import os
 import csv
+from random import randint
 from pydub import AudioSegment
 
 
@@ -79,13 +80,22 @@ def process_file(wav_files_dir, slices_dir, output_dir):    #Call 2
                         filewriter = csv.writer(csvfile, delimiter=',',quotechar='|', quoting=csv.QUOTE_MINIMAL)
                         #filewriter.writerow(['file', 'material', 'gender', 'corpus'])   --- Put this file header manually!!!
                         csv_line.append(slice_full_path)
-                        csv_line.append(material)
+                        csv_line.append(get_material())
                         csv_line.append(gender)
                         csv_line.append(corpus)
                         filewriter.writerow(csv_line)
                         print ("writing slice: ", slices, " to filelist.csv")
                         csv_line = []
         
+def get_material():
+    seed = randint(1, 100)
+    if seed <= 70:
+        return 'train'
+    elif seed <= 85:
+        return 'dev'
+    else 
+        return 'test'
+
 
 def get_gender(split_filename, filename_without_type):  #return value of 0 is male, 1 is female
     split_prefix = split_filename.split('.')[0]
@@ -118,23 +128,23 @@ def get_gender(split_filename, filename_without_type):  #return value of 0 is ma
         print("genders for file: " + filename_without_type + " not available in any of the filetable.txt files given")
         sys.exit(2)
 
-def start(the_material, file_table_dir, wav_files_dir, slices_dir, output_dir):
-    global material
-    material = the_material
-    print ("material: ", material)
-    if material != "train" and material != "dev" and material != "test":
-        print("Error! Specify in 2nd argument whether it's a train, dev or test")
-        sys.exit(2)
+def start(file_table_dir, wav_files_dir, slices_dir, output_dir):
+    # global material
+    # material = the_material
+    # print ("material: ", material)
+    # if material != "train" and material != "dev" and material != "test":
+    #     print("Error! Specify in 2nd argument whether it's a train, dev or test")
+    #     sys.exit(2)
     read_filetable_files(file_table_dir)                                           
     process_file(wav_files_dir, slices_dir, output_dir)
         
 def main(argv): 
     # make sure there are at least five arguments
-    if len(argv) >=5 :
-        start(argv[0], argv[1], argv[2], argv[3], argv[4])
+    if len(argv) >=4 :
+        start(argv[0], argv[1], argv[2], argv[3])
     else:
         print ("Incomplete Arguments...")
-        print ("\nUsage: python create_file_listing_csv.py <file_table_dir> <material> <wav_file_dir> <transcript_dir_prefix> <output_dir>\n")
+        print ("\nUsage: python create_file_listing_csv.py <file_table_dir> <wav_file_dir> <slices_dir> <output_dir>\n")
         #print ("Example: python create_file_listing_csv.py 7 3\n")
         sys.exit(2)
  
